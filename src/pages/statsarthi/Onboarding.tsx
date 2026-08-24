@@ -27,10 +27,10 @@ export default function Onboarding() {
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-surface-50">
-      <Card className="w-full max-w-lg shadow-xl border-t-4 border-t-primary-600">
-        <CardHeader className="text-center space-y-2">
-          <div className="mx-auto bg-primary-100 w-16 h-16 flex items-center justify-center rounded-full mb-2">
-            <Building2 className="h-8 w-8 text-primary-700" />
+      <Card className="w-full max-w-lg shadow-xl border-t-4 border-t-primary">
+        <CardHeader className="text-center pb-2">
+          <div className="mx-auto bg-muted w-16 h-16 flex items-center justify-center rounded-full mb-2">
+            <Building2 className="h-8 w-8 text-primary" />
           </div>
           <CardTitle className="text-2xl font-bold text-gray-900">Official Profile Setup</CardTitle>
           <CardDescription className="text-base">
@@ -126,7 +126,7 @@ export default function Onboarding() {
             </div>
           </CardContent>
           <CardFooter className="bg-gray-50 border-t px-6 py-4 rounded-b-xl">
-            <Button type="submit" className="w-full text-lg h-12 gap-2 bg-primary-700 hover:bg-primary-800 text-white">
+            <Button type="submit" className="w-full text-lg h-12 gap-2 bg-primary hover:bg-primary/90 text-primary-foreground">
               Save Profile & Start Diagnostics <ChevronRight className="h-5 w-5" />
             </Button>
           </CardFooter>
