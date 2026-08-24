@@ -62,7 +62,7 @@ export default function DiagnosticAssessment() {
       }
       setQuestions(allQuestions);
     } catch (error) {
-      toast.error("Failed to generate assessment. Please try again.");
+      toast.error(`API Error: ${error instanceof Error ? error.message : "Unknown error"}. Check DevTools Console.`); console.error("Gemini API Error:", error);
       setRole(null);
     } finally {
       setLoading(false);

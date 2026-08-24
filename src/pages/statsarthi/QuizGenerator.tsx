@@ -112,7 +112,7 @@ export default function QuizGenerator() {
       setGeneratedQuestions(validMcqs);
       toast.success(`Generated ${validMcqs.length} high-quality questions successfully!`);
     } catch (error) {
-      toast.error("Failed to generate questions. Please try again.");
+      toast.error(`API Error: ${error instanceof Error ? error.message : "Unknown error"}. Check DevTools Console.`); console.error("Gemini API Error:", error);
     } finally {
       setIsGenerating(false);
     }
