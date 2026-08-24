@@ -7,7 +7,6 @@ export class GeminiService {
   private currentPdfData: string | null = null;
 
   private getAI(): GoogleGenAI {
-    // Combine all possible Vercel keys from the screenshot
     const envKeys = [
       import.meta.env.VITE_GEMINI_API_KEYS,
       import.meta.env.VITE_GEMINI_API_KEY,
@@ -26,15 +25,20 @@ export class GeminiService {
       return new GoogleGenAI({ apiKey: 'dummy-key' });
     }
     
-    // Split by comma in case someone used the VITE_GEMINI_API_KEYS comma-separated method
     const keys = envKeys.split(',').map(k => k.trim()).filter(k => k.length > 0 && k !== 'dummy-key');
-    
     if (keys.length === 0) {
       return new GoogleGenAI({ apiKey: 'dummy-key' });
     }
 
-    const key = keys[this.currentKeyIndex % keys.length];
-    this.currentKeyIndex++;
+    // Persist rotation index across page reloads!
+    let idx = parseInt(localStorage.getItem('gemini_key_index') || '0', 10);
+    if (isNaN(idx)) idx = 0;
+    
+    const key = keys[idx % keys.length];
+    
+    // Increment and save for the next request
+    localStorage.setItem('gemini_key_index', (idx + 1).toString());
+    
     return new GoogleGenAI({ apiKey: key });
   }
 
@@ -637,5 +641,6 @@ Gap Report: ${JSON.stringify(gapReport)}
 }
 
 export const geminiService = new GeminiService();
+
 
 
