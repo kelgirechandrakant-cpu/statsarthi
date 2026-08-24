@@ -173,3 +173,10 @@ src/integrations/supabase/        → Original Supabase config (preserved for po
 1. `App.tsx`: Uncomment EduResources routes, comment out StatSarthi routes
 2. `index.css`: Swap commented color blocks (restore orange theme)
 3. `Navbar.tsx`: Uncomment original nav links, comment out StatSarthi links
+
+---
+
+## 8. Strictly No Assumptions (User Global Rule)
+- **NEVER ASSUME OR GUESS:** Do not guess version numbers, system states, or configuration variables based on external docs if the code is currently functioning.
+- **VERIFY FIRST:** Trust the working code over outdated READMEs. Always verify the actual state (e.g., via \cat\ or \git log\) before making sweeping changes.
+- **ASK IF NEEDED:** If there is any ambiguity, underspecified requirement, or missing context, **ASK** the user for clarification rather than making assumptions.
