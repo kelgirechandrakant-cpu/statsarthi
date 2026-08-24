@@ -21,12 +21,12 @@ export function CourseCard({ course, type }: CourseCardProps) {
         <div className="flex justify-between items-start mb-2 gap-2">
           <Badge 
             variant="outline" 
-            className={isIGOT ? 'bg-primary-50 text-primary-700 border-primary-200' : 'bg-accent-50 text-accent-700 border-accent-200'}
+            className={isIGOT ? 'bg-primary/10 text-primary border-primary/20' : 'bg-accent/10 text-accent-foreground border-accent/20'}
           >
             {isIGOT ? 'iGOT Karmayogi' : 'NSSTA TPAC'}
           </Badge>
           {isIGOT && (course as IGOTCourse).isIllustrative && (
-            <Badge variant="secondary" className="text-[10px] uppercase bg-surface-100 text-surface-500">
+            <Badge variant="secondary" className="text-[10px] uppercase bg-muted text-muted-foreground">
               Illustrative
             </Badge>
           )}
@@ -41,7 +41,7 @@ export function CourseCard({ course, type }: CourseCardProps) {
           {course.description}
         </p>
         
-        <div className="space-y-2 text-sm text-surface-600">
+        <div className="space-y-2 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
             <Building className="h-4 w-4 shrink-0 text-muted-foreground" />
             <span className="truncate">{course.provider}</span>
@@ -74,7 +74,7 @@ export function CourseCard({ course, type }: CourseCardProps) {
             </a>
           </Button>
         )}
-        <Button variant="secondary" className="w-full gap-2 text-primary-700 bg-primary-50 hover:bg-primary-100" asChild>
+        <Button variant="secondary" className="w-full gap-2 text-primary bg-primary/10 hover:bg-primary/20" asChild>
           <Link to="/quiz">
             Test Knowledge <BrainCircuit className="h-4 w-4" />
           </Link>
