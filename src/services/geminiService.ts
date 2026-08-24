@@ -463,6 +463,88 @@ Generate exactly ${count} questions matching the required JSON schema strictly.`
     }
   }
 
+  // Batched version: generates questions for ALL competency areas in a SINGLE API call
+  // This avoids hitting free-tier rate limits (20 req/day per key)
+  public async generateBatchDiagnosticQuestions(
+    competencyAreas: { name: string; subCompetencies: string[]; id: string }[],
+    difficulty: 'beginner' | 'intermediate' | 'advanced',
+    questionsPerArea: number = 3,
+    language: string = 'English',
+    profileContext?: any
+  ): Promise<any[]> {
+    const ai = this.getAI();
+    const totalQuestions = competencyAreas.length * questionsPerArea;
+    
+    const areasDescription = competencyAreas.map((area, i) => 
+      `${i + 1}. "${area.name}" (id: "${area.id}") — Sub-competencies: ${area.subCompetencies.join(", ")}`
+    ).join("\n");
+
+    const promptText = `You are generating diagnostic assessment questions for officials in India's
+Official Statistical System (MoSPI/NSO). These are working professionals,
+not students — questions must reflect real tasks they perform, not abstract
+textbook scenarios.
+
+${profileContext ? `OFFICIAL PROFILE CONTEXT:
+- Cadre/Role: ${profileContext.cadre}
+- Department: ${profileContext.department}
+- Current Assignment: ${profileContext.currentAssignment}
+- Experience: ${profileContext.experience}
+- Education: ${profileContext.educationalQualifications}
+(Tailor the scenarios in the questions to fit this official's specific department and current assignment where possible.)\n` : ''}
+
+You MUST generate exactly ${questionsPerArea} questions for EACH of these competency areas (${totalQuestions} total):
+${areasDescription}
+
+Target Difficulty: ${difficulty}
+Target Language: ${language} (Ensure the entire output, including questions, options, and explanations, is translated perfectly into ${language})
+
+MANDATORY GROUNDING RULES:
+1. Every question MUST be set in the context of a real MoSPI survey or
+   statistical product: PLFS, ASI, CPI/WPI/CFPI, National Accounts (GDP/GVA),
+   or CAPI-based field data collection.
+2. Use only real terminology that MoSPI officials actually use:
+   FSU, UFS block, rotational panel, Census/Sample sector, NIC classification,
+   WPR, LFPR, UR, CWS, Usual Status (PS/PS+SS), GDP vs GVA, base year,
+   CPI (Rural/Urban/Combined), CFPI, HCES, COICOP, CAPI, SQAF.
+3. Do not fabricate MoSPI figures, dates, or results.
+4. The "competencyArea" field in each question MUST exactly match one of the area names listed above.
+
+Generate exactly ${totalQuestions} questions matching the required JSON schema strictly.`;
+
+    const response = await ai.models.generateContent({
+      model: 'gemini-3.6-flash',
+      contents: [{ text: promptText }],
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: {
+              id: { type: Type.STRING },
+              question: { type: Type.STRING },
+              options: { type: Type.ARRAY, items: { type: Type.STRING }, description: "Exactly 4 options" },
+              correctIndex: { type: Type.INTEGER, description: "0-3 index of the correct option" },
+              competencyArea: { type: Type.STRING },
+              subCompetency: { type: Type.STRING },
+              bloomsLevel: { type: Type.STRING, enum: ['Remember', 'Understand', 'Apply', 'Analyze', 'Evaluate', 'Create'] },
+              difficulty: { type: Type.STRING },
+              explanation: { type: Type.STRING, description: "Why the correct answer is correct and others are wrong." }
+            },
+            required: ["id", "question", "options", "correctIndex", "competencyArea", "subCompetency", "bloomsLevel", "difficulty", "explanation"]
+          }
+        }
+      }
+    });
+
+    try {
+      return JSON.parse(response.text || "[]");
+    } catch (error) {
+      console.error("Failed to parse batched diagnostic questions:", error);
+      throw new Error("Failed to generate valid diagnostic questions.");
+    }
+  }
+
   public async generateMCQsFromDocument(
     fileData: string,
     mimeType: string,

@@ -30,36 +30,32 @@ export default function DiagnosticAssessment() {
     setLoading(true);
     setLoadingText('Generating custom diagnostic assessment...');
     try {
-      let allQuestions: DiagnosticQuestion[] = [];
-      // Only generate 1 question per required competency for demo speed
+      // Collect all competency area info for the selected role
+      const competencyAreas: { name: string; subCompetencies: string[]; id: string }[] = [];
       for (const req of selectedRole.requiredCompetencies) {
-        // Find competency area details
-        let areaInfo = null;
         for (const domain of competencyDomains) {
           const area = domain.areas.find(a => a.id === req.competencyId);
           if (area) {
-            areaInfo = area;
+            competencyAreas.push({ name: area.name, subCompetencies: area.subCompetencies, id: area.id });
             break;
           }
         }
-        
-        if (areaInfo) {
-          setLoadingText(`Generating questions for ${areaInfo.name}...`);
-          
-          const profileRaw = localStorage.getItem('statsarthi_profile');
-          const profileContext = profileRaw ? JSON.parse(profileRaw) : undefined;
-          
-          const generated = await geminiService.generateDiagnosticQuestions(
-            areaInfo.name, 
-            areaInfo.subCompetencies, 
-            'intermediate', 
-            3,
-            language,
-            profileContext
-          );
-          allQuestions = [...allQuestions, ...generated];
-        }
       }
+
+      const profileRaw = localStorage.getItem('statsarthi_profile');
+      const profileContext = profileRaw ? JSON.parse(profileRaw) : undefined;
+
+      setLoadingText(`Generating ${competencyAreas.length * 3} questions across ${competencyAreas.length} competency areas...`);
+
+      // SINGLE API call for ALL competency areas (prevents free-tier rate limit exhaustion)
+      const allQuestions = await geminiService.generateBatchDiagnosticQuestions(
+        competencyAreas,
+        'intermediate',
+        3,
+        language,
+        profileContext
+      );
+
       setQuestions(allQuestions);
     } catch (error) {
       toast.error(`API Error: ${error instanceof Error ? error.message : "Unknown error"}. Check DevTools Console.`); console.error("Gemini API Error:", error);
