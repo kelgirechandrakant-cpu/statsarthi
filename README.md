@@ -1,53 +1,66 @@
-# EduResources - Your Complete Study Resource Hub
+# StatSarthi - AI-Powered Capacity Building Ecosystem
+**Smart India Hackathon 2026 | Problem Statement: SIH26101 (MoSPI)**
 
-EduResources is a modern, high-performance web platform designed to help students and developers master computer science concepts, access study notes, solve previous year questions (PYQs), submit assignments, and practice interactive coding challenges.
+[![React](https://img.shields.io/badge/React-18-blue.svg)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-5-646CFF.svg)](https://vitejs.dev/)
+[![Firebase](https://img.shields.io/badge/Firebase-Backend-FFCA28.svg)](https://firebase.google.com/)
+[![Gemini](https://img.shields.io/badge/Google-Gemini_2.5_Flash-blue.svg)](https://deepmind.google/technologies/gemini/)
 
-## Features
+## Overview
+StatSarthi is an AI-driven competency intelligence platform built for the **Ministry of Statistics & Programme Implementation (MoSPI)**. It profiles government officials, diagnoses highly specific statistical skill gaps, and recommends personalized training pathways using the official iGOT Karmayogi and NSSTA frameworks.
 
-- **Study Hub & Notes Directory**: Access structured subject notes and downloadable resources across various academic terms.
-- **Previous Year Questions (PYQs)**: Filter and practice real university exam questions with AI-powered pedagogical explanations.
-- **Interactive Code Arena**: Practice C and Python programming with gamified LeetCode-style challenges, live execution engine, and an embedded AI Coding Mentor.
-- **AI Study Assistant & Tutor**: Get step-by-step guidance, concept traces, and custom explanations tailored to your comprehension level (`Understand-Anything`).
-- **User Dashboard & Analytics**: Track streak points, XP points, hearts/lives, and completed practice problems in real time.
+## ?? The X-Factor: Live MoSPI MCP Integration
+Unlike generic AI wrappers, StatSarthi connects directly to the live MoSPI statistical backend via the **Model Context Protocol (MCP)**. 
+- **Real-Time Data Injection:** The AI dynamically fetches live datasets (like the latest **Consumer Price Index** or **Periodic Labour Force Survey** data).
+- **Data-Driven Quizzes:** The platform uses this real-time government data to generate hyper-contextualized, math-intensive quiz questions to test statistical competency.
 
-## Tech Stack
+## ?? Core Features
+1. **Dynamic Profiling & Diagnostics**: Maps user skills to the official 5-level FRAC proficiency scale (Aware -> Apply -> Advise -> Expert -> Ustad).
+2. **Personalized Learning Pathways**: Automatically maps identified competency gaps to official NSSTA (TPAC) training programs and Sunbird/iGOT architectural content.
+3. **AI Quiz Generator**: Upload training PDFs and let Gemini 2.5 Flash generate zero-hallucination, localized MCQs mapped to Bloom's Taxonomy.
+4. **Admin Analytics**: Real-time heat maps of national competency gaps for data-driven MoSPI deployment and promotion decisions.
 
+## ??? Tech Stack
 - **Frontend Core**: React 18, TypeScript, Vite
-- **Styling & UI**: Tailwind CSS, HSL Semantic Design Tokens, `shadcn/ui` components
-- **State & Routing**: React Router v6, TanStack Query
-- **Backend & AI Integration**: Supabase (Auth, Storage & Edge Functions), Google Gemini API (`@google/genai`)
+- **Styling**: Tailwind CSS, shadcn/ui, Recharts
+- **Database & Auth**: Firebase Cloud (Auth, Firestore)
+- **AI Engine**: Google Gemini 2.5 Flash API (@google/genai)
+- **Data Gateway**: Model Context Protocol (MCP)
 
-## Getting Started
+## ?? Local Development Setup
 
-### Prerequisites
-Make sure you have [Node.js](https://nodejs.org/) (v18+) and `npm` installed locally.
+1. **Clone the repository:**
+   `ash
+   git clone https://github.com/kelgirechandrakant-cpu/statsarthi.git
+   cd statsarthi
+   `
 
-### Installation & Local Development
-
-1. **Clone the repository and install dependencies:**
-   ```bash
+2. **Install dependencies:**
+   `ash
    npm install
-   ```
+   `
 
-2. **Configure Environment Variables:**
-   Create a `.env` file in the project root containing your API keys (e.g., Supabase credentials or Gemini API key):
-   ```env
-   VITE_SUPABASE_URL=your_supabase_url
-   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-   ```
+3. **Configure Environment Variables:**
+   Create a .env file in the project root. You will need Firebase credentials and a Gemini API Key:
+   `env
+   VITE_FIREBASE_API_KEY="your_firebase_api_key"
+   VITE_FIREBASE_AUTH_DOMAIN="your_firebase_auth_domain"
+   VITE_FIREBASE_PROJECT_ID="your_firebase_project_id"
+   VITE_FIREBASE_STORAGE_BUCKET="your_firebase_storage_bucket"
+   VITE_FIREBASE_MESSAGING_SENDER_ID="your_firebase_messaging_sender_id"
+   VITE_FIREBASE_APP_ID="your_firebase_app_id"
+   VITE_GEMINI_API_KEY="your_gemini_api_key"
+   `
 
-3. **Start the Development Server:**
-   ```bash
+4. **Start the Development Server:**
+   `ash
    npm run dev
-   ```
-   Open `http://localhost:8080` in your browser to view the application.
+   `
+   Open http://localhost:8080 in your browser.
 
-4. **Build for Production:**
-   ```bash
-   npm run build
-   ```
-   The production-ready build artifacts will be generated in the `dist/` directory.
+## ??? Security & Privacy
+- **Client-Side Document Processing**: Uploaded PDFs for quiz generation are processed entirely in the browser (via base64) and sent securely to the LLM. No sensitive government documents are permanently stored in a database.
+- **Firebase Security Rules**: Role-based access control enforces that officials can only read/write their own gap reports.
 
-## License
-
-This project is open-source and available for educational use.
+---
+*Built with ?? for the Smart India Hackathon 2026*
