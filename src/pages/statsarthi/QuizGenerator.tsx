@@ -121,15 +121,15 @@ export default function QuizGenerator() {
   return (
     <div className="container mx-auto py-24 px-4 max-w-5xl space-y-8">
       <div>
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2">
-          <h1 className="text-3xl font-bold tracking-tight text-primary-700">AI Quiz Generator</h1>
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm font-medium shadow-sm">
-            <span className="relative flex h-2.5 w-2.5">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">AI Quiz Generator</h1>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-800 text-sm font-semibold shadow-sm">
+            <span className="relative flex h-3 w-3">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
             </span>
             <ServerCog className="h-4 w-4" />
-            Live MoSPI MCP Connection
+            Live MoSPI MCP Connection Active
           </div>
         </div>
         <p className="text-muted-foreground">
@@ -149,7 +149,7 @@ export default function QuizGenerator() {
           <CardContent>
             {!file ? (
               <div 
-                className="border-2 border-dashed border-border rounded-lg p-12 text-center hover:bg-surface-50 transition-colors cursor-pointer"
+                className="border-2 border-dashed border-border rounded-lg p-12 text-center hover:bg-muted transition-colors cursor-pointer"
                 onClick={() => fileInputRef.current?.click()}
               >
                 <Upload className="h-10 w-10 text-muted-foreground mx-auto mb-4" />
@@ -157,7 +157,7 @@ export default function QuizGenerator() {
                 <p className="text-sm text-muted-foreground mt-1">PDF, PPTX (via PDF export) - Max 15MB</p>
               </div>
             ) : (
-              <div className="bg-surface-50 border border-border rounded-lg p-4 flex items-center justify-between">
+              <div className="bg-muted border border-border rounded-lg p-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="bg-primary/10 p-2 rounded-md">
                     <CheckCircle2 className="h-6 w-6 text-primary" />
@@ -239,11 +239,11 @@ export default function QuizGenerator() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="English">English</SelectItem>
-                    <SelectItem value="Hindi">Hindi (हिंदी)</SelectItem>
-                    <SelectItem value="Marathi">Marathi (मराठी)</SelectItem>
-                    <SelectItem value="Bengali">Bengali (বাংলা)</SelectItem>
-                    <SelectItem value="Tamil">Tamil (தமிழ்)</SelectItem>
-                    <SelectItem value="Telugu">Telugu (తెలుగు)</SelectItem>
+                    <SelectItem value="Hindi">Hindi</SelectItem>
+                    <SelectItem value="Marathi">Marathi</SelectItem>
+                    <SelectItem value="Bengali">Bengali</SelectItem>
+                    <SelectItem value="Tamil">Tamil</SelectItem>
+                    <SelectItem value="Telugu">Telugu</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -272,7 +272,7 @@ export default function QuizGenerator() {
           </CardContent>
           <CardFooter>
             <Button 
-              className="w-full bg-primary hover:bg-primary-600 text-white" 
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" 
               onClick={handleGenerate}
               disabled={!fileData || isGenerating}
             >

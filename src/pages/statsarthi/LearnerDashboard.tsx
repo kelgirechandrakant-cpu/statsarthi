@@ -40,7 +40,7 @@ export default function LearnerDashboard() {
     return (
       <div className="container mx-auto py-24 px-4 text-center max-w-2xl">
         <Target className="h-16 w-16 text-muted-foreground mx-auto mb-6 opacity-50" />
-        <h1 className="text-3xl font-bold tracking-tight text-primary-700 mb-4">Welcome to StatSarthi</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-primary mb-4">Welcome to StatSarthi</h1>
         <p className="text-lg text-muted-foreground mb-8">
           You haven't completed a diagnostic assessment yet. Identify your competency gaps and get personalized iGOT Karmayogi training recommendations.
         </p>
@@ -92,7 +92,7 @@ export default function LearnerDashboard() {
           <Button variant="outline" className="print:hidden" onClick={() => window.print()}>
             <Download className="mr-2 h-4 w-4" /> Export PDF
           </Button>
-          <div className="flex items-center gap-3 bg-surface-50 p-3 rounded-lg border border-border print:border-none print:bg-transparent print:p-0">
+          <div className="flex items-center gap-3 bg-muted p-3 rounded-lg border border-border print:border-none print:bg-transparent print:p-0">
             <div className="bg-primary/10 p-2 rounded-full print:hidden">
               <TrendingUp className="h-5 w-5 text-primary" />
             </div>
@@ -135,7 +135,7 @@ export default function LearnerDashboard() {
                     const prevLevel = prevArea?.currentLevel ?? area.currentLevel;
                     const delta = area.currentLevel - prevLevel;
                     return (
-                      <div key={area.competencyId} className="flex items-center justify-between p-3 rounded-lg border border-border bg-surface-50">
+                      <div key={area.competencyId} className="flex items-center justify-between p-3 rounded-lg border border-border bg-muted">
                         <span className="font-medium text-sm">{area.competencyName.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}</span>
                         <div className="flex items-center gap-3">
                           <span className="text-sm text-muted-foreground">Level {prevLevel} → Level {area.currentLevel}</span>
@@ -151,8 +151,8 @@ export default function LearnerDashboard() {
                     );
                   })}
                 </div>
-                <div className="mt-4 p-4 bg-primary-50 rounded-lg border border-primary-200">
-                  <p className="text-sm font-semibold text-primary-800">
+                <div className="mt-4 p-4 bg-primary/10 rounded-lg border border-primary-200">
+                  <p className="text-sm font-semibold text-primary">
                     Overall: Level {previousReport.overallLevel} → Level {report.overallLevel}
                     {report.overallLevel > previousReport.overallLevel && (
                       <span className="ml-2 text-green-700">↑ Improved by {report.overallLevel - previousReport.overallLevel} level(s)</span>
@@ -207,13 +207,13 @@ export default function LearnerDashboard() {
         </div>
 
         <div className="space-y-6 print:hidden">
-          <Card className="shadow-md border-primary-200 bg-primary-50/50">
+          <Card className="shadow-md border-primary-200 bg-primary/10/50">
             <CardHeader>
-              <CardTitle className="text-primary-800 flex items-center gap-2">
+              <CardTitle className="text-primary flex items-center gap-2">
                 <GraduationCap className="h-5 w-5" />
                 Learning Pathway
               </CardTitle>
-              <CardDescription className="text-primary-700/80">
+              <CardDescription className="text-primary/80">
                 Curated iGOT & NSSTA courses based on your gaps.
               </CardDescription>
             </CardHeader>
