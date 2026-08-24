@@ -7,12 +7,32 @@ export class GeminiService {
   private currentPdfData: string | null = null;
 
   private getAI(): GoogleGenAI {
-    const keysStr = import.meta.env.VITE_GEMINI_API_KEYS || import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.VITE_API_KEY || localStorage.getItem('gemini_api_keys') || localStorage.getItem('gemini_api_key') || '';
-    if (!keysStr) {
+    // Combine all possible Vercel keys from the screenshot
+    const envKeys = [
+      import.meta.env.VITE_GEMINI_API_KEYS,
+      import.meta.env.VITE_GEMINI_API_KEY,
+      import.meta.env.VITE_GEMINI_API_KEY_1,
+      import.meta.env.VITE_GEMINI_API_KEY_2,
+      import.meta.env.VITE_GEMINI_API_KEY_3,
+      import.meta.env.VITE_GEMINI_API_KEY_4,
+      import.meta.env.VITE_GEMINI_API_KEY_5,
+      import.meta.env.VITE_API_KEY,
+      localStorage.getItem('gemini_api_keys'),
+      localStorage.getItem('gemini_api_key')
+    ].filter(Boolean).join(',');
+
+    if (!envKeys) {
       console.warn("No Gemini API key found in env or localStorage.");
       return new GoogleGenAI({ apiKey: 'dummy-key' });
     }
-    const keys = keysStr.split(',').map(k => k.trim()).filter(k => k.length > 0);
+    
+    // Split by comma in case someone used the VITE_GEMINI_API_KEYS comma-separated method
+    const keys = envKeys.split(',').map(k => k.trim()).filter(k => k.length > 0 && k !== 'dummy-key');
+    
+    if (keys.length === 0) {
+      return new GoogleGenAI({ apiKey: 'dummy-key' });
+    }
+
     const key = keys[this.currentKeyIndex % keys.length];
     this.currentKeyIndex++;
     return new GoogleGenAI({ apiKey: key });
@@ -617,4 +637,5 @@ Gap Report: ${JSON.stringify(gapReport)}
 }
 
 export const geminiService = new GeminiService();
+
 
