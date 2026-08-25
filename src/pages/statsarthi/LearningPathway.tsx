@@ -8,6 +8,8 @@ import { nsstaCourses } from '@/data/nsstaCourses';
 import { CourseCard } from '@/components/statsarthi/CourseCard';
 import { GraduationCap, ArrowRight, BookMarked, AlertCircle, KeyRound, ServerCog, Database, Link2, Brain } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { toast } from 'sonner';
 
 export default function LearningPathway() {
   const navigate = useNavigate();
@@ -178,3 +180,4 @@ export default function LearningPathway() {
     </div>
   );
 }
+

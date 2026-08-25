@@ -4,6 +4,14 @@ import { Users, BookOpen, Target, TrendingUp, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { GapReport } from '@/types/statsarthi';
 
+const gapData = [
+  { name: 'Survey Design', gap: 2.1, officials: 450 },
+  { name: 'Data Privacy', gap: 1.8, officials: 320 },
+  { name: 'National Accounts', gap: 1.5, officials: 280 },
+  { name: 'CAPI Collection', gap: 1.2, officials: 600 },
+  { name: 'AI & ML', gap: 2.4, officials: 150 },
+];
+
 export default function AdminDashboard() {
   const [stats, setStats] = useState({
     totalOfficials: 1248,
@@ -116,64 +124,72 @@ export default function AdminDashboard() {
         </Card>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8">
-        <Card className="shadow-sm">
+            <div className="grid lg:grid-cols-3 gap-8 mt-8">
+        <Card className="lg:col-span-2 shadow-sm border-t-4 border-t-primary">
           <CardHeader>
-            <CardTitle>Top Competency Gaps</CardTitle>
-            <CardDescription>Areas with the largest deficit across all roles</CardDescription>
+            <CardTitle>National Competency Heatmap</CardTitle>
+            <CardDescription>Aggregate gap severity across MoSPI (Demand-Side Forecasting)</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span className="font-medium text-foreground">Data Privacy & Protection</span>
-                <span className="text-danger-600 font-semibold">-1.8 Avg Gap</span>
-              </div>
-              <div className="h-2 bg-surface-100 rounded-full overflow-hidden">
-                <div className="h-full bg-danger-500 w-[85%] rounded-full" />
-              </div>
+          <CardContent>
+            <div className="h-[300px] w-full mt-4">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={gapData} layout="vertical" margin={{ top: 5, right: 30, left: 40, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" opacity={0.3} horizontal={false} />
+                  <XAxis type="number" domain={[0, 3]} />
+                  <YAxis dataKey="name" type="category" width={120} tick={{fontSize: 12}} />
+                  <Tooltip contentStyle={{ borderRadius: '8px' }} />
+                  <Bar dataKey="gap" name="Avg Gap Level (FRAC)" radius={[0, 4, 4, 0]}>
+                    {gapData.map((entry, index) => (
+                      <Cell key={cell-} fill={entry.gap > 2 ? '#ef4444' : entry.gap > 1.5 ? '#f97316' : '#eab308'} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
             </div>
-            
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span className="font-medium text-foreground">AI & Machine Learning</span>
-                <span className="text-warning-600 font-semibold">-1.4 Avg Gap</span>
-              </div>
-              <div className="h-2 bg-surface-100 rounded-full overflow-hidden">
-                <div className="h-full bg-warning-500 w-[65%] rounded-full" />
-              </div>
-            </div>
-            
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span className="font-medium text-foreground">Cloud Computing (MeghRaj)</span>
-                <span className="text-warning-600 font-semibold">-1.2 Avg Gap</span>
-              </div>
-              <div className="h-2 bg-surface-100 rounded-full overflow-hidden">
-                <div className="h-full bg-warning-500 w-[55%] rounded-full" />
-              </div>
+            <div className="mt-4 p-4 bg-slate-50 border border-slate-200 rounded-lg text-sm flex gap-3">
+              <AlertTriangle className="h-5 w-5 text-amber-500 shrink-0" />
+              <p>
+                <strong>Action Required:</strong> AI & ML and Survey Design show critical national deficits (>2.0 gap). 
+                Recommend scheduling immediate NSSTA intervention batches for these cohorts.
+              </p>
             </div>
           </CardContent>
         </Card>
 
         <Card className="shadow-sm">
           <CardHeader>
-            <CardTitle>Recent Assessments</CardTitle>
-            <CardDescription>Latest diagnostic results from officials</CardDescription>
+            <CardTitle>Ecosystem Telemetry</CardTitle>
+            <CardDescription>Platform usage metrics</CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {recentAssessments.map((item, i) => (
-                <div key={i} className="flex justify-between items-center p-3 hover:bg-surface-50 rounded-lg transition-colors border border-transparent hover:border-border">
-                  <div>
-                    <p className="font-medium text-foreground">{item.name}</p>
-                    <p className="text-xs text-muted-foreground">{item.role}</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-medium text-primary-700">{item.score}</p>
-                    <p className="text-xs text-muted-foreground">{item.date}</p>
-                  </div>
-                </div>
-              ))}
+          <CardContent className="space-y-6">
+            <div>
+              <div className="flex justify-between text-sm mb-1">
+                <span className="text-slate-600">Validation Quizzes Passed</span>
+                <span className="font-bold text-emerald-600">68%</span>
+              </div>
+              <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                <div className="h-full bg-emerald-500 w-[68%]" />
+              </div>
+              <p className="text-xs text-slate-400 mt-1">452 officials leveled up their FRAC score</p>
+            </div>
+
+            <div>
+              <div className="flex justify-between text-sm mb-1">
+                <span className="text-slate-600">Total Karma Points Issued</span>
+                <span className="font-bold text-amber-500">125,400</span>
+              </div>
+              <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                <div className="h-full bg-amber-400 w-[100%]" />
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-slate-100">
+              <h4 className="text-sm font-semibold mb-3">Top Recommended iGOT Courses</h4>
+              <ul className="space-y-2 text-sm text-slate-600">
+                <li className="flex justify-between"><span>1. Intro to Data Governance</span> <strong>340</strong></li>
+                <li className="flex justify-between"><span>2. CAPI Mobile Collection</span> <strong>280</strong></li>
+                <li className="flex justify-between"><span>3. Advanced Excel for Stats</span> <strong>195</strong></li>
+              </ul>
             </div>
           </CardContent>
         </Card>
@@ -250,3 +266,4 @@ export default function AdminDashboard() {
     </div>
   );
 }
+

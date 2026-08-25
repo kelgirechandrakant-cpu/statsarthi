@@ -7,12 +7,16 @@ import { IGOTCourse, NSSTACourse } from '@/types/statsarthi';
 import { ExternalLink, Clock, Target, Building, BrainCircuit } from 'lucide-react';
 import { toast } from 'sonner';
 
+import { CheckCircle2 } from 'lucide-react';
+
 interface CourseCardProps {
   course: IGOTCourse | NSSTACourse;
   type: 'igot' | 'nssta';
+  onValidate?: () => void;
+  isValidated?: boolean;
 }
 
-export function CourseCard({ course, type }: CourseCardProps) {
+export function CourseCard({ course, type, onValidate, isValidated }: CourseCardProps) {
   const isIGOT = type === 'igot';
 
   return (
@@ -59,7 +63,7 @@ export function CourseCard({ course, type }: CourseCardProps) {
         </div>
       </CardContent>
       
-      <CardFooter className="pt-4 border-t border-border mt-auto flex flex-col gap-2">
+            <CardFooter className="pt-4 border-t border-border mt-auto flex flex-col gap-2">
         {course.url === '#' ? (
           <Button variant="outline" className="w-full gap-2" onClick={(e) => {
             e.preventDefault();
@@ -74,12 +78,22 @@ export function CourseCard({ course, type }: CourseCardProps) {
             </a>
           </Button>
         )}
-        <Button variant="secondary" className="w-full gap-2 text-primary bg-primary/10 hover:bg-primary/20" asChild>
-          <Link to="/quiz">
-            Test Knowledge <BrainCircuit className="h-4 w-4" />
-          </Link>
-        </Button>
+        
+        {isValidated ? (
+          <div className="w-full py-2 flex items-center justify-center gap-2 text-emerald-600 bg-emerald-50 rounded-md border border-emerald-200 text-sm font-medium">
+            <CheckCircle2 className="h-4 w-4" /> FRAC Level Updated
+          </div>
+        ) : (
+          <Button 
+            variant="default" 
+            className="w-full gap-2 bg-amber-500 hover:bg-amber-600 text-white" 
+            onClick={onValidate}
+          >
+            Take Validation Quiz <BrainCircuit className="h-4 w-4" />
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );
 }
+

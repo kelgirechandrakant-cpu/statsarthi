@@ -34,6 +34,9 @@ export interface OfficialProfile {
   yearsOfExperience: number;
   previousTrainings: string[]; // IDs of completed courses
   selfAssessedLevels: Record<string, FRACLevel>; // competencyId -> FRAC level
+  assessedFRACLevels?: Record<string, FRACLevel>; // system-assessed levels (post-quiz)
+  karmaPoints?: number; // iGOT Karma Points
+  completedCourses?: string[]; // IDs of validated courses
   createdAt: string;
   updatedAt: string;
 }
@@ -170,4 +173,6 @@ export interface PathwayStep {
     nssta: string[];
   };
   status: 'not_started' | 'in_progress' | 'completed';
+  validated?: boolean; // Has passed validation gate quiz
 }
+
