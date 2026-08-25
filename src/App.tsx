@@ -30,7 +30,8 @@ const LearnerDashboard = lazy(() => import("./pages/statsarthi/LearnerDashboard"
 const AdminDashboard = lazy(() => import("./pages/statsarthi/AdminDashboard"));
 const DiagnosticAssessment = lazy(() => import("./pages/statsarthi/DiagnosticAssessment"));
 const LearningPathway = lazy(() => import("./pages/statsarthi/LearningPathway"));
-const QuizGenerator = lazy(() => import("./pages/statsarthi/QuizGenerator"));
+const QuizGenerator = lazy(() => import(./pages/statsarthi/QuizGenerator));
+const MoSPIDatasets = lazy(() => import('./pages/statsarthi/MoSPIDatasets'));
 const Onboarding = lazy(() => import("./pages/statsarthi/Onboarding"));
 const AboutMission = lazy(() => import("./pages/statsarthi/AboutMission"));
 
@@ -62,6 +63,7 @@ const App = () => (
                   <Route path="/assessment" element={<DiagnosticAssessment />} />
                   <Route path="/pathway" element={<LearningPathway />} />
                   <Route path="/quiz" element={<QuizGenerator />} />
+                    <Route path="/datasets" element={<MoSPIDatasets />} />
 
                   {/* EduResources Original Routes - HIDING FOR SIH */}
                   {/*
@@ -96,3 +98,5 @@ const App = () => (
 );
 
 export default App;
+
+
