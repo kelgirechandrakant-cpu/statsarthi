@@ -1,0 +1,26 @@
+{
+  "competencyFramework.md": {
+    "mtime": 1787677955.2182672,
+    "seen": 1787677979.2269754,
+    "ast_hash": "12d5ec78cf07fd12881c0a8c84bb1798",
+    "semantic_hash": "12d5ec78cf07fd12881c0a8c84bb1798"
+  },
+  "igotCourses.md": {
+    "mtime": 1787677955.236645,
+    "seen": 1787677979.2269804,
+    "ast_hash": "773b1ed76ca3b11cdeef54013e0af9e9",
+    "semantic_hash": "773b1ed76ca3b11cdeef54013e0af9e9"
+  },
+  "nsstaCourses.md": {
+    "mtime": 1787677955.229062,
+    "seen": 1787677979.2269824,
+    "ast_hash": "8b83f9e2cedd397279de70b71edfeae9",
+    "semantic_hash": "8b83f9e2cedd397279de70b71edfeae9"
+  },
+  "roleProfiles.md": {
+    "mtime": 1787677955.2211103,
+    "seen": 1787677979.2269833,
+    "ast_hash": "21f32ab979ba06c5b0b10861237cbe54",
+    "semantic_hash": "21f32ab979ba06c5b0b10861237cbe54"
+  }
+}

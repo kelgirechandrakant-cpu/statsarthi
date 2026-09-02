@@ -5,8 +5,10 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { CompetencyRadar } from '@/components/statsarthi/CompetencyRadar';
 import { GapReport, FRAC_LEVEL_LABELS } from '@/types/statsarthi';
-import { AlertCircle, Target, TrendingUp, BookOpen, GraduationCap, ChevronRight, Download, BarChart3, ArrowRight } from 'lucide-react';
+import { roleProfiles } from '@/data/roleProfiles';
+import { AlertCircle, Target, TrendingUp, BookOpen, GraduationCap, ChevronRight, Download, BarChart3, ArrowRight, Clock } from 'lucide-react';
 import { getGapSeverity, GAP_SEVERITY_CONFIG, GapSeverity } from '@/services/gapUtils';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 export default function LearnerDashboard() {
   const navigate = useNavigate();
@@ -36,17 +38,50 @@ export default function LearnerDashboard() {
     }
   }, []);
 
+  // Mock data for overall progress chart
+  const progressData = [
+    { month: 'Jan', score: 35 },
+    { month: 'Feb', score: 42 },
+    { month: 'Mar', score: 48 },
+    { month: 'Apr', score: 55 },
+    { month: 'May', score: Math.round(report?.overallScore || 60) },
+  ];
+
   if (!report) {
+    const userRole = profile?.designation ? roleProfiles.find(r => r.id === profile.designation) : null;
+
     return (
-      <div className="container mx-auto py-24 px-4 text-center max-w-2xl">
-        <Target className="h-16 w-16 text-muted-foreground mx-auto mb-6 opacity-50" />
-        <h1 className="text-3xl font-bold tracking-tight text-primary mb-4">Welcome to StatSarthi</h1>
-        <p className="text-lg text-muted-foreground mb-8">
-          You haven't completed a diagnostic assessment yet. Identify your competency gaps and get personalized iGOT Karmayogi training recommendations.
-        </p>
-        <Button size="lg" className="px-8" onClick={() => navigate('/assessment')}>
-          Take Diagnostic Assessment <ArrowRight className="ml-2 h-5 w-5" />
-        </Button>
+      <div className="container mx-auto py-12 px-4 max-w-5xl">
+        <div className="text-center max-w-3xl mx-auto mb-12">
+          <div className="mx-auto bg-primary/10 w-20 h-20 flex items-center justify-center rounded-full mb-6">
+            <Target className="h-10 w-10 text-primary" />
+          </div>
+          <h1 className="text-4xl font-bold tracking-tight text-slate-900 mb-4">Welcome, {profile?.name || 'Officer'}</h1>
+          <p className="text-lg text-slate-600 mb-8">
+            You are registered as a <strong className="text-primary">{userRole ? userRole.title : (profile?.designation || 'MoSPI Official')}</strong>. 
+            To personalize your capacity building journey, you need to map your current skills against your role's FRAC requirements.
+          </p>
+          <Button size="lg" className="px-8 h-14 text-lg bg-primary hover:bg-primary/90 text-white shadow-lg" onClick={() => navigate('/assessment')}>
+            Start Diagnostic Assessment <ArrowRight className="ml-2 h-6 w-6" />
+          </Button>
+        </div>
+
+        {userRole && (
+          <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-8 mt-8">
+            <h2 className="text-2xl font-bold text-slate-800 mb-2">Required Competencies</h2>
+            <p className="text-slate-500 mb-6">According to the MoSPI Capacity Building Framework, your role requires proficiency in these areas:</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {userRole.requiredCompetencies.map((comp) => (
+                <div key={comp.competencyId} className="flex items-center justify-between p-4 bg-slate-50 border border-slate-100 rounded-lg">
+                  <span className="font-medium text-slate-700 capitalize">{comp.competencyId.replace(/-/g, ' ')}</span>
+                  <Badge variant="outline" className="bg-white border-primary/20 text-primary">
+                    Level {comp.requiredLevel}: {FRAC_LEVEL_LABELS[comp.requiredLevel as keyof typeof FRAC_LEVEL_LABELS]}
+                  </Badge>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -276,5 +311,6 @@ export default function LearnerDashboard() {
     </div>
   );
 }
+
 
 

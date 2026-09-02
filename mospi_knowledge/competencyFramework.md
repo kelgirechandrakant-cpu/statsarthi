@@ -1,4 +1,4 @@
-import { CompetencyDomain } from '@/types/statsarthi';
+﻿import { CompetencyDomain } from '@/types/statsarthi';
 
 export const competencyDomains: CompetencyDomain[] = [
   {
@@ -228,7 +228,7 @@ export const competencyDomains: CompetencyDomain[] = [
 ];
 
 /**
- * PROFICIENCY LEVEL DESCRIPTORS (from SIH26101 research — Image 2)
+ * PROFICIENCY LEVEL DESCRIPTORS (from SIH26101 research â€” Image 2)
  * 
  * This matrix defines what "good" looks like at each level for each domain.
  * The AI engine maps every official against this framework.

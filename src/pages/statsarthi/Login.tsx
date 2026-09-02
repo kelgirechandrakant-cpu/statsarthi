@@ -24,7 +24,7 @@ export default function Login() {
       if (isSignUp) {
         await createUserWithEmailAndPassword(auth, email, password);
         toast.success('Account created successfully');
-        navigate('/onboarding'); // usually go to onboarding after signup
+        navigate('/onboarding');
       } else {
         await signInWithEmailAndPassword(auth, email, password);
         toast.success('Logged in successfully');
@@ -45,7 +45,7 @@ export default function Login() {
       toast.success('Logged in with Google successfully');
       navigate('/dashboard');
     } catch (error: any) {
-      toast.error(error.message || 'Google authentication failed.');
+      if (error?.message?.includes("reading 'create'") || error?.message?.includes("operation-not-supported")) { toast.error("Firebase config is incomplete. Please ensure you have added ALL variables (VITE_FIREBASE_API_KEY, VITE_FIREBASE_AUTH_DOMAIN, etc.) to your .env file and restarted the dev server."); } else { toast.error(error.message || "Google authentication failed."); }
     } finally {
       setLoading(false);
     }
@@ -161,3 +161,4 @@ export default function Login() {
     </div>
   );
 }
+

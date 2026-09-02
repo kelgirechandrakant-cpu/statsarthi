@@ -1,8 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Users, BookOpen, Target, TrendingUp, Download } from 'lucide-react';
+import { Users, BookOpen, Target, TrendingUp, Download, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { GapReport } from '@/types/statsarthi';
+import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from 'recharts';
+import { AlertTriangle } from 'lucide-react';
+
+const forecastingData = [
+  { year: '2026', currentSupply: 1200, requiredDemand: 1300 },
+  { year: '2027', currentSupply: 1100, requiredDemand: 1500 },
+  { year: '2028', currentSupply: 950, requiredDemand: 1800 },
+  { year: '2029', currentSupply: 800, requiredDemand: 2200 },
+];
+
+const emergingSkillsData = [
+  { subject: 'Cloud (MeghRaj)', A: 85, fullMark: 100 },
+  { subject: 'Big Data', A: 90, fullMark: 100 },
+  { subject: 'Predictive Analytics', A: 75, fullMark: 100 },
+  { subject: 'Geospatial mapping', A: 60, fullMark: 100 },
+  { subject: 'CAPI Advanced', A: 80, fullMark: 100 },
+  { subject: 'Cybersecurity', A: 95, fullMark: 100 },
+];
+
+const effectivenessData = [
+  { name: 'Survey Design', before: 2.1, after: 0.5 },
+  { name: 'Data Privacy', before: 1.8, after: 0.4 },
+  { name: 'CAPI', before: 1.2, after: 0.2 },
+];
 
 const gapData = [
   { name: 'Survey Design', gap: 2.1, officials: 450 },
@@ -68,13 +92,17 @@ export default function AdminDashboard() {
     <div className="container mx-auto py-24 px-4 max-w-7xl space-y-8">
       <div className="flex justify-between items-end">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-primary-700">Training Coordinator Dashboard</h1>
+          <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 border border-amber-200 mb-4">
+            <Shield className="h-3 w-3" />
+            Environment: SIH MVP Prototype &nbsp;&nbsp;|&nbsp;&nbsp; Target Production: MeghRaj (GI-Cloud)
+          </div>
+          <h1 className="text-3xl font-bold tracking-tight text-primary-700">Administrator Dashboard (Sunbird Obsrv Telemetry)</h1>
           <p className="text-muted-foreground mt-2">
-            Overview of competency gaps and training metrics across the department.
+            Macro-level view of statistical system operational readiness and predictive capacity planning.
           </p>
         </div>
         <Button variant="outline" className="gap-2">
-          <Download className="h-4 w-4" /> Export Report
+          <Download className="h-4 w-4" /> Export Telemetry Report
         </Button>
       </div>
 
@@ -127,8 +155,8 @@ export default function AdminDashboard() {
             <div className="grid lg:grid-cols-3 gap-8 mt-8">
         <Card className="lg:col-span-2 shadow-sm border-t-4 border-t-primary">
           <CardHeader>
-            <CardTitle>National Competency Heatmap</CardTitle>
-            <CardDescription>Aggregate gap severity across MoSPI (Demand-Side Forecasting)</CardDescription>
+            <CardTitle>Workforce Competency Distribution</CardTitle>
+            <CardDescription>Heatmaps illustrating the density of specific skills across departments</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="h-[300px] w-full mt-4">
@@ -140,7 +168,7 @@ export default function AdminDashboard() {
                   <Tooltip contentStyle={{ borderRadius: '8px' }} />
                   <Bar dataKey="gap" name="Avg Gap Level (FRAC)" radius={[0, 4, 4, 0]}>
                     {gapData.map((entry, index) => (
-                      <Cell key={cell-} fill={entry.gap > 2 ? '#ef4444' : entry.gap > 1.5 ? '#f97316' : '#eab308'} />
+                      <Cell key={`cell-${index}`} fill={entry.gap > 2 ? '#ef4444' : entry.gap > 1.5 ? '#f97316' : '#eab308'} />
                     ))}
                   </Bar>
                 </BarChart>
@@ -149,7 +177,7 @@ export default function AdminDashboard() {
             <div className="mt-4 p-4 bg-slate-50 border border-slate-200 rounded-lg text-sm flex gap-3">
               <AlertTriangle className="h-5 w-5 text-amber-500 shrink-0" />
               <p>
-                <strong>Action Required:</strong> AI & ML and Survey Design show critical national deficits (>2.0 gap). 
+                <strong>Action Required:</strong> AI & ML and Survey Design show critical national deficits (&gt;2.0 gap). 
                 Recommend scheduling immediate NSSTA intervention batches for these cohorts.
               </p>
             </div>
@@ -195,11 +223,58 @@ export default function AdminDashboard() {
         </Card>
       </div>
 
+      {/* NEW TELEMETRY CHARTS FROM BLUEPRINT */}
+      <div className="grid lg:grid-cols-2 gap-8 mt-8">
+        <Card className="shadow-sm">
+          <CardHeader>
+            <CardTitle>Predictive Analytics & Capacity Planning</CardTitle>
+            <CardDescription>Forecasting structural skill deficits (Demand vs Supply)</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-[250px] w-full mt-4">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={forecastingData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+                  <XAxis dataKey="year" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Line type="monotone" dataKey="currentSupply" stroke="#3b82f6" name="Current Trained Supply" strokeWidth={2} />
+                  <Line type="monotone" dataKey="requiredDemand" stroke="#ef4444" name="Projected Demand" strokeWidth={2} strokeDasharray="5 5" />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="shadow-sm">
+          <CardHeader>
+            <CardTitle>Training Effectiveness Evaluation (ROI)</CardTitle>
+            <CardDescription>Pre vs Post Assessment Gap Correlation via IRT</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-[250px] w-full mt-4">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={effectivenessData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Bar dataKey="before" name="Gap Before Training" fill="#f87171" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="after" name="Gap After Training" fill="#34d399" radius={[4, 4, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
       <div className="mt-8">
         <Card className="shadow-sm border-primary-200">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <span className="text-xl">🕸️</span>
+              <Target className="h-5 w-5 text-primary-500" />
               Knowledge Graph: FRAC to Training Mapping
             </CardTitle>
             <CardDescription>Visualizing how identified competency gaps automatically map to training interventions across the Official Statistical System.</CardDescription>
@@ -266,4 +341,5 @@ export default function AdminDashboard() {
     </div>
   );
 }
+
 

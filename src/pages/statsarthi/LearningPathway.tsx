@@ -10,11 +10,15 @@ import { GraduationCap, ArrowRight, BookMarked, AlertCircle, KeyRound, ServerCog
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { toast } from 'sonner';
+import { geminiService } from '@/services/geminiService';
+import ReactMarkdown from 'react-markdown';
 
 export default function LearningPathway() {
   const navigate = useNavigate();
   const [report, setReport] = useState<GapReport | null>(null);
-  const [pathway, setPathway] = useState<PathwayStep[]>([]);
+    const [pathway, setPathway] = useState<PathwayStep[]>([]);
+  const [aiInsight, setAiInsight] = useState<string>('');
+  const [loadingInsight, setLoadingInsight] = useState<boolean>(false);
 
   useEffect(() => {
     const saved = localStorage.getItem('latestGapReport');
@@ -22,6 +26,16 @@ export default function LearningPathway() {
       const parsedReport = JSON.parse(saved);
       setReport(parsedReport);
       setPathway(generateLearningPathway(parsedReport));
+      
+      // GraphRAG AI Insight
+      setLoadingInsight(true);
+      geminiService.generateGraphRAGLearningPathway(parsedReport)
+        .then(res => setAiInsight(res))
+        .catch(err => {
+          console.error(err);
+          setAiInsight("Unable to generate AI insights at this time.");
+        })
+        .finally(() => setLoadingInsight(false));
     }
   }, []);
 
@@ -180,4 +194,6 @@ export default function LearningPathway() {
     </div>
   );
 }
+
+
 

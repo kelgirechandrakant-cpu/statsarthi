@@ -12,17 +12,22 @@ export default function Onboarding() {
   const [formData, setFormData] = useState({
     name: '',
     cadre: '',
+    designation: '', // NEW: specific designation (JSO, SSO, ASO, Director, etc.)
     department: '',
     experience: '',
     currentAssignment: '',
     educationalQualifications: '',
-    previousTrainings: ''
+    previousTrainings: '',
+    igotCoursesCompleted: '', // NEW: number of iGOT courses previously completed
+    languagePreference: 'English', // NEW: Bhashini language preference
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    localStorage.setItem('statsarthi_profile', JSON.stringify(formData));
-    navigate('/assessment'); // Redirect to diagnostic assessment
+    // Store with fullName alias for backward compatibility
+    const profileData = { ...formData, fullName: formData.name };
+    localStorage.setItem('statsarthi_profile', JSON.stringify(profileData));
+    navigate('/dashboard');
   };
 
   return (
@@ -65,6 +70,24 @@ export default function Onboarding() {
                   <SelectItem value="sss">Subordinate Statistical Service (SSS)</SelectItem>
                   <SelectItem value="des">State DES Official</SelectItem>
                   <SelectItem value="other">Other / Ministry Official</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="designation" className="text-sm font-medium">Designation</Label>
+              <Select onValueChange={(val) => setFormData({...formData, designation: val})}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select your designation" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="jso">Junior Statistical Officer (JSO)</SelectItem>
+                  <SelectItem value="sso">Senior Statistical Officer (SSO)</SelectItem>
+                  <SelectItem value="aso">Assistant Statistical Officer (ASO)</SelectItem>
+                  <SelectItem value="dy-director">Deputy Director</SelectItem>
+                  <SelectItem value="director">Director</SelectItem>
+                  <SelectItem value="field-investigator">Field Investigator</SelectItem>
+                  <SelectItem value="other-designation">Other</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -124,10 +147,43 @@ export default function Onboarding() {
                 onChange={(e) => setFormData({...formData, previousTrainings: e.target.value})}
               />
             </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="igotCourses" className="text-sm font-medium">iGOT Courses Completed</Label>
+                <Select onValueChange={(val) => setFormData({...formData, igotCoursesCompleted: val})}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="0">None</SelectItem>
+                    <SelectItem value="1-5">1-5 Courses</SelectItem>
+                    <SelectItem value="6-15">6-15 Courses</SelectItem>
+                    <SelectItem value="15+">15+ Courses</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="language" className="text-sm font-medium">Language Preference</Label>
+                <Select value={formData.languagePreference} onValueChange={(val) => setFormData({...formData, languagePreference: val})}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="English">English</SelectItem>
+                    <SelectItem value="Hindi">हिन्दी (Hindi)</SelectItem>
+                    <SelectItem value="Bengali">বাংলা (Bengali)</SelectItem>
+                    <SelectItem value="Tamil">தமிழ் (Tamil)</SelectItem>
+                    <SelectItem value="Telugu">తెలుగు (Telugu)</SelectItem>
+                    <SelectItem value="Marathi">मराठी (Marathi)</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
           </CardContent>
           <CardFooter className="bg-gray-50 border-t px-6 py-4 rounded-b-xl">
             <Button type="submit" className="w-full text-lg h-12 gap-2 bg-primary hover:bg-primary/90 text-primary-foreground">
-              Save Profile & Start Diagnostics <ChevronRight className="h-5 w-5" />
+              Save Profile & View Dashboard <ChevronRight className="h-5 w-5" />
             </Button>
           </CardFooter>
         </form>

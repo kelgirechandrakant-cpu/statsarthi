@@ -176,3 +176,63 @@ export interface PathwayStep {
   validated?: boolean; // Has passed validation gate quiz
 }
 
+// === iGOT INTEGRATION TYPES (from SIH26101 research) ===
+export type EnrollmentStatus = 
+  | 'recommended'
+  | 'viewed'
+  | 'enrolled'
+  | 'in_progress'
+  | 'completed'
+  | 'failed'
+  | 'expired'
+  | 'certificate_issued';
+
+export interface EnrollmentRecord {
+  userId: string;
+  courseId: string;
+  igotCourseId?: string;
+  status: EnrollmentStatus;
+  recommendedAt?: string;
+  enrolledAt?: string;
+  startedAt?: string;
+  completedAt?: string;
+  certificateIssuedAt?: string;
+  finalScore?: number;
+  learningHours?: number;
+  lastSyncedAt: string;
+  sourceSystem: 'statsarthi' | 'igot';
+}
+
+export interface CompetencyAuditEntry {
+  id: string;
+  userId: string;
+  competencyId: string;
+  previousScore: number;
+  newScore: number;
+  previousLevel: number;
+  newLevel: number;
+  reason: string;
+  components: {
+    w1_previousScore: number;
+    w2_courseResult: number;
+    w3_platformQuiz: number;
+    w4_practicalExercise: number;
+  };
+  timestamp: string;
+}
+
+// === TRAINER REVIEW WORKFLOW ===
+export type ReviewStatus = 'draft' | 'pending_review' | 'approved' | 'rejected' | 'published';
+
+export interface ReviewableQuestion extends GeneratedMCQ {
+  reviewStatus: ReviewStatus;
+  reviewedBy?: string;
+  reviewedAt?: string;
+  reviewComments?: string;
+  generatedBy: 'gemini-ai' | 'manual';
+  version: number;
+  language: string;
+  competencyId?: string;
+  sourcePageOrSlide?: string;
+}
+

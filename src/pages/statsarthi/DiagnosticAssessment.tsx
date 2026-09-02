@@ -45,13 +45,13 @@ export default function DiagnosticAssessment() {
       const profileRaw = localStorage.getItem('statsarthi_profile');
       const profileContext = profileRaw ? JSON.parse(profileRaw) : undefined;
 
-      setLoadingText(`Generating ${competencyAreas.length * 3} questions across ${competencyAreas.length} competency areas...`);
+      setLoadingText(`Generating ${competencyAreas.length * 2} diagnostic questions across ${competencyAreas.length} competency areas...`);
 
       // SINGLE API call for ALL competency areas (prevents free-tier rate limit exhaustion)
       const allQuestions = await geminiService.generateBatchDiagnosticQuestions(
         competencyAreas,
         'intermediate',
-        3,
+        2,
         language,
         profileContext
       );
@@ -96,25 +96,21 @@ export default function DiagnosticAssessment() {
 
   if (!role) {
     return (
-      <div className="container mx-auto py-24 px-4">
-        <div className="max-w-4xl mx-auto mb-8 bg-white p-6 rounded-xl border border-border shadow-sm">
+      <div className="container mx-auto py-24 px-4 relative">
+        <div className="max-w-4xl mx-auto mb-8 bg-white p-6 rounded-xl border border-border shadow-sm relative z-10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div>
               <h2 className="text-xl font-bold text-primary-900">Assessment Language</h2>
-              <p className="text-muted-foreground text-sm">Select the language for your diagnostic assessment.</p>
+              <p className="text-sm text-slate-500">Choose the language for your diagnostic questions.</p>
             </div>
-            <div className="w-full md:w-64">
+            <div className="w-[200px]">
               <Select value={language} onValueChange={setLanguage}>
                 <SelectTrigger>
-                  <SelectValue />
+                  <SelectValue placeholder="Select language" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="English">English</SelectItem>
-                  <SelectItem value="Hindi">Hindi (हिंदी)</SelectItem>
-                  <SelectItem value="Marathi">Marathi (मराठी)</SelectItem>
-                  <SelectItem value="Bengali">Bengali (বাংলা)</SelectItem>
-                  <SelectItem value="Tamil">Tamil (தமிழ்)</SelectItem>
-                  <SelectItem value="Telugu">Telugu (తెలుగు)</SelectItem>
+                  <SelectItem value="Hindi">Hindi</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -122,9 +118,26 @@ export default function DiagnosticAssessment() {
         </div>
         <RoleSelector onSelect={handleRoleSelect} />
         {loading && (
-          <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
-            <Loader2 className="h-12 w-12 text-primary animate-spin mb-4" />
-            <h2 className="text-xl font-semibold text-primary-700">{loadingText}</h2>
+          <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
+            <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl flex flex-col items-center text-center animate-in zoom-in-95 duration-300">
+              <div className="relative w-24 h-24 mb-6">
+                <div className="absolute inset-0 rounded-full border-t-4 border-primary animate-spin"></div>
+                <div className="absolute inset-2 rounded-full border-r-4 border-primary-400 animate-spin opacity-75" style={{ animationDuration: '1.5s', animationDirection: 'reverse' }}></div>
+                <div className="absolute inset-4 rounded-full border-b-4 border-primary-300 animate-spin opacity-50" style={{ animationDuration: '2s' }}></div>
+                <Brain className="absolute inset-0 m-auto h-8 w-8 text-primary animate-pulse" />
+              </div>
+              <h2 className="text-2xl font-bold text-slate-800 mb-2">StatSarthi AI Engine</h2>
+              <p className="text-slate-500 font-medium h-12 flex items-center justify-center text-sm">{loadingText}</p>
+              
+              <div className="w-full bg-slate-100 h-2 rounded-full mt-4 overflow-hidden relative">
+                <div className="bg-primary h-full rounded-full animate-[pulse_1.5s_ease-in-out_infinite] w-full origin-left scale-x-[0.85] opacity-80"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full animate-[shimmer_2s_infinite]"></div>
+              </div>
+              <div className="w-full flex justify-between mt-3 text-[11px] uppercase tracking-wider text-slate-400 font-bold">
+                <span>Connecting to LLM</span>
+                <span>Generating payload</span>
+              </div>
+            </div>
           </div>
         )}
       </div>
@@ -133,14 +146,50 @@ export default function DiagnosticAssessment() {
 
   if (loading) {
     return (
-      <div className="container mx-auto py-24 px-4 flex flex-col items-center justify-center min-h-[60vh]">
-        <Loader2 className="h-12 w-12 text-primary animate-spin mb-4" />
-        <h2 className="text-xl font-semibold text-primary-700">{loadingText}</h2>
+      <div className="container mx-auto py-24 px-4 flex flex-col items-center justify-center min-h-[70vh]">
+        <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg border border-primary-100 flex flex-col items-center text-center animate-in fade-in duration-500">
+          <div className="relative w-24 h-24 mb-6">
+            <div className="absolute inset-0 rounded-full border-t-4 border-primary animate-spin"></div>
+            <div className="absolute inset-2 rounded-full border-r-4 border-primary-400 animate-spin opacity-75" style={{ animationDuration: '1.5s', animationDirection: 'reverse' }}></div>
+            <div className="absolute inset-4 rounded-full border-b-4 border-primary-300 animate-spin opacity-50" style={{ animationDuration: '2s' }}></div>
+            <Brain className="absolute inset-0 m-auto h-8 w-8 text-primary animate-pulse" />
+          </div>
+          <h2 className="text-2xl font-bold text-slate-800 mb-2">Analyzing Responses</h2>
+          <p className="text-slate-500 font-medium h-12 flex items-center justify-center text-sm">{loadingText}</p>
+          <div className="w-full bg-slate-100 h-2 rounded-full mt-4 overflow-hidden">
+            <div className="bg-primary h-full rounded-full animate-pulse transition-all duration-500 w-[90%]"></div>
+          </div>
+          <div className="w-full flex justify-between mt-3 text-[11px] uppercase tracking-wider text-slate-400 font-bold">
+            <span>Mapping Gaps</span>
+            <span>FRAC Evaluation</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!questions || questions.length === 0) {
+    return (
+      <div className="container mx-auto py-16 px-4 max-w-4xl text-center">
+        <h2 className="text-2xl font-bold text-red-600 mb-4">Assessment Generation Failed</h2>
+        <p className="text-slate-600 mb-6">The Gemini API could not generate valid questions. Check your API key or DevTools console for details.</p>
+        <Button onClick={() => navigate('/dashboard')} variant="default">Return to Dashboard</Button>
       </div>
     );
   }
 
   const currentQ = questions[currentIdx];
+  
+  if (!currentQ) {
+    return (
+      <div className="container mx-auto py-16 px-4 max-w-4xl text-center">
+        <h2 className="text-2xl font-bold text-red-600 mb-4">Invalid Question Data</h2>
+        <p className="text-slate-600 mb-6">The local AI returned malformed question data.</p>
+        <Button onClick={() => navigate('/dashboard')} variant="default">Return to Dashboard</Button>
+      </div>
+    );
+  }
+
   const progress = ((currentIdx) / questions.length) * 100;
 
   return (
@@ -237,3 +286,5 @@ export default function DiagnosticAssessment() {
     </div>
   );
 }
+
+

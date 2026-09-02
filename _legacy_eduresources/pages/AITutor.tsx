@@ -105,9 +105,12 @@ export default function AITutor() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isLoading]);
-
   useEffect(() => {
-    geminiService.createChat(messages, uploadedPdfData || undefined);
+    try {
+      geminiService.createChat(messages, uploadedPdfData || undefined);
+    } catch (e) {
+      console.error("Failed to create chat:", e);
+    }
   }, [uploadedPdfData]);
 
   const handleApiKeySave = () => {
@@ -540,3 +543,5 @@ export default function AITutor() {
     </div>
   );
 }
+
+

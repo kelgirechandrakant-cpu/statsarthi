@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { BookOpen, FileText, ClipboardList, LogOut, FolderOpen, Menu, Code2, Bot, LayoutDashboard, Brain, GraduationCap, PenTool } from "lucide-react";
+import {    LogOut, , Menu,  Bot, LayoutDashboard, Brain, GraduationCap, PenTool } from "lucide-react";
 import { useFirebaseAuth } from "@/integrations/firebase/auth";
 import { toast } from "sonner";
 import { useState } from "react";
@@ -21,19 +21,22 @@ export const Navbar = () => {
   };
 
   const navLinks = [
-    // StatSarthi Links
-    { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
-    { to: "/assessment", icon: Brain, label: "Gap Assessment" },
-    { to: "/pathway", icon: GraduationCap, label: "iGOT Pathway" },
-    { to: "/quiz", icon: PenTool, label: "Quiz Generator" },
+    // Learner Journey
+    { to: "/dashboard", icon: LayoutDashboard, label: "My Dashboard" },
+    { to: "/assessment", icon: Brain, label: "My Diagnostics" },
+    { to: "/pathway", icon: GraduationCap, label: "My Pathway" },
     
-    // Original EduResources Links (HIDDEN FOR SIH)
+    // NSSTA Trainer / Admin Journey
+    { to: "/quiz", icon: PenTool, label: "AI Content Creator" },
+    { to: "/admin", icon: LayoutDashboard, label: "Admin Hub" },
+    
+    
     /*
-    { to: "/resources", icon: FolderOpen, label: "Resources" },
-    { to: "/notes", icon: BookOpen, label: "Notes" },
-    { to: "/assignments", icon: ClipboardList, label: "Assignments" },
-    { to: "/pyqs", icon: FileText, label: "PYQs" },
-    { to: "/practice", icon: Code2, label: "Practice Arena" },
+    { to: "/resources", icon: , label: "Resources" },
+    { to: "/notes", icon:  label: "Notes" },
+    { to: "/assignments", icon:  label: "Assignments" },
+    { to: "/pyqs", icon:  label: "PYQs" },
+    { to: "/practice", icon:  label: "Practice Arena" },
     { to: "/ai-tutor", icon: Bot, label: "AI Tutor" },
     */
   ];

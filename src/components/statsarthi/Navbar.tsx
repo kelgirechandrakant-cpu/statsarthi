@@ -11,10 +11,10 @@ export function Navbar() {
 
   const navLinks = [
     { title: "Home", path: "/" },
-    { title: "Mission & About", path: "/about-mission" },
     { title: "Gap Finder", path: "/assessment" },
     { title: "iGOT Pathway", path: "/pathway" },
     { title: "AI Quiz", path: "/quiz" },
+    { title: "Datasets", path: "/datasets" },
   ];
 
   const isActive = (path: string) => location.pathname === path;

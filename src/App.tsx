@@ -5,22 +5,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
 
-const Index = lazy(() => import("./pages/Index"));
-const Notes = lazy(() => import("./pages/Notes"));
-const Assignments = lazy(() => import("./pages/Assignments"));
-const PYQs = lazy(() => import("./pages/PYQs"));
-const Resources = lazy(() => import("./pages/Resources"));
-const Admin = lazy(() => import("./pages/Admin"));
-const Auth = lazy(() => import("./pages/Auth"));
-const UserAuth = lazy(() => import("./pages/UserAuth"));
-const OTPAuth = lazy(() => import("./pages/OTPAuth"));
-const AuthCallback = lazy(() => import("./pages/AuthCallback"));
-const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
-const About = lazy(() => import("./pages/About"));
-const Contact = lazy(() => import("./pages/Contact"));
-const PracticeDirectory = lazy(() => import("./pages/PracticeDirectory"));
-const ProblemArena = lazy(() => import("./pages/ProblemArena"));
-const AITutor = lazy(() => import("./pages/AITutor"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // StatSarthi Pages
@@ -30,7 +14,7 @@ const LearnerDashboard = lazy(() => import("./pages/statsarthi/LearnerDashboard"
 const AdminDashboard = lazy(() => import("./pages/statsarthi/AdminDashboard"));
 const DiagnosticAssessment = lazy(() => import("./pages/statsarthi/DiagnosticAssessment"));
 const LearningPathway = lazy(() => import("./pages/statsarthi/LearningPathway"));
-const QuizGenerator = lazy(() => import(./pages/statsarthi/QuizGenerator));
+const QuizGenerator = lazy(() => import('./pages/statsarthi/QuizGenerator'));
 const MoSPIDatasets = lazy(() => import('./pages/statsarthi/MoSPIDatasets'));
 const Onboarding = lazy(() => import("./pages/statsarthi/Onboarding"));
 const AboutMission = lazy(() => import("./pages/statsarthi/AboutMission"));
@@ -38,6 +22,7 @@ const AboutMission = lazy(() => import("./pages/statsarthi/AboutMission"));
 import { FloatingAssistant } from "./components/statsarthi/FloatingAssistant";
 import { AuthProvider } from "./integrations/firebase/auth.tsx";
 import { Navbar } from "./components/statsarthi/Navbar";
+import { Footer } from "./components/statsarthi/Footer";
 
 const queryClient = new QueryClient();
 
@@ -89,6 +74,7 @@ const App = () => (
                 </Routes>
               </Suspense>
             </main>
+            <Footer />
             <FloatingAssistant />
           </div>
         </BrowserRouter>
@@ -98,5 +84,4 @@ const App = () => (
 );
 
 export default App;
-
 

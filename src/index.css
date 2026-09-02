@@ -143,6 +143,10 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-white text-surface-900;
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
   }
 }
+@keyframes shimmer { 100% { transform: translateX(100%); } }
+
+

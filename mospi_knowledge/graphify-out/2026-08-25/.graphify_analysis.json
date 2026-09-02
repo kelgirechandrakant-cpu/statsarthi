@@ -1,0 +1,153 @@
+{
+  "communities": {
+    "0": [
+      "competencyframework_survey_design",
+      "igotcourses_igot_ill_survey_01",
+      "nsstacourses_nssta_survey_planning_design",
+      "roleprofiles_jso"
+    ],
+    "1": [
+      "competencyframework_national_accounts",
+      "roleprofiles_iss_director"
+    ],
+    "2": [
+      "competencyframework_proficiency_descriptors",
+      "competencyframework_statistical"
+    ],
+    "3": [
+      "competencyframework_python_r",
+      "nsstacourses_nssta_python_for_statisticians"
+    ],
+    "4": [
+      "competencyframework_behavioural"
+    ],
+    "5": [
+      "competencyframework_digital_governance"
+    ],
+    "6": [
+      "competencyframework_technical"
+    ]
+  },
+  "cohesion": {
+    "0": 0.5,
+    "1": 1.0,
+    "2": 1.0,
+    "3": 1.0,
+    "4": 1.0,
+    "5": 1.0,
+    "6": 1.0
+  },
+  "gods": [
+    {
+      "id": "competencyframework_survey_design",
+      "label": "Survey Design & Sampling",
+      "degree": 4
+    },
+    {
+      "id": "competencyframework_statistical",
+      "label": "Statistical Domain",
+      "degree": 2
+    },
+    {
+      "id": "competencyframework_national_accounts",
+      "label": "National Accounts & GDP",
+      "degree": 1
+    },
+    {
+      "id": "competencyframework_python_r",
+      "label": "Python & R Programming",
+      "degree": 1
+    },
+    {
+      "id": "competencyframework_proficiency_descriptors",
+      "label": "Proficiency Level Descriptors",
+      "degree": 1
+    },
+    {
+      "id": "igotcourses_igot_ill_survey_01",
+      "label": "Survey Design Principles (iGOT)",
+      "degree": 1
+    },
+    {
+      "id": "nsstacourses_nssta_survey_planning_design",
+      "label": "Planning and Designing of Large Scale Sample Surveys (NSSTA)",
+      "degree": 1
+    },
+    {
+      "id": "nsstacourses_nssta_python_for_statisticians",
+      "label": "Python Training for Statisticians (NSSTA)",
+      "degree": 1
+    },
+    {
+      "id": "roleprofiles_jso",
+      "label": "Junior Statistical Officer (JSO)",
+      "degree": 1
+    },
+    {
+      "id": "roleprofiles_iss_director",
+      "label": "Director (ISS)",
+      "degree": 1
+    }
+  ],
+  "surprises": [
+    {
+      "source": "Survey Design Principles (iGOT)",
+      "target": "Survey Design & Sampling",
+      "source_files": [
+        "igotCourses.md",
+        "competencyFramework.md"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "connects across different repos/directories"
+    },
+    {
+      "source": "Planning and Designing of Large Scale Sample Surveys (NSSTA)",
+      "target": "Survey Design & Sampling",
+      "source_files": [
+        "nsstaCourses.md",
+        "competencyFramework.md"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "connects across different repos/directories"
+    },
+    {
+      "source": "Junior Statistical Officer (JSO)",
+      "target": "Survey Design & Sampling",
+      "source_files": [
+        "roleProfiles.md",
+        "competencyFramework.md"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "connects across different repos/directories"
+    },
+    {
+      "source": "Director (ISS)",
+      "target": "National Accounts & GDP",
+      "source_files": [
+        "roleProfiles.md",
+        "competencyFramework.md"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "connects across different repos/directories"
+    },
+    {
+      "source": "Python Training for Statisticians (NSSTA)",
+      "target": "Python & R Programming",
+      "source_files": [
+        "nsstaCourses.md",
+        "competencyFramework.md"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "connects across different repos/directories"
+    }
+  ],
+  "tokens": {
+    "input": 9132,
+    "output": 1668
+  }
+}
